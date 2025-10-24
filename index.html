@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Page Loader</title>
-        <script src=https://cdn.jsdelivr.net/npm/base91@0.0.5/lib/base91.min.js></script>
+        <script src="https://cdn.jsdelivr.net/npm/base91@0.0.5/lib/base91.min.js"></script>
     </head>
     <body>
         <script type="module">
@@ -22,7 +22,7 @@
 
             if (!skip) {
                 try {
-                    const base91decoded = window.base91.decode(decodeURIComponent(encoded));
+                    const base91decoded = window.base91.decode(encoded);
                     const decompressed = decompress(base91decoded);
                     const htmlText = new TextDecoder().decode(decompressed);
                     
