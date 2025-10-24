@@ -13,20 +13,25 @@
             const params = new URLSearchParams(location.search);
             const encoded = params.get("data");
 
+            let skip = false;
+
             if (!encoded) {
-                location.replace("./create.html");
+                location.replace("./create");
+                skip = true;
             }
 
-            try {
-                const base91decoded = window.base91.decode(decodeURIComponent(encoded));
-                const decompressed = decompress(base91decoded);
-                const htmlText = new TextDecoder().decode(decompressed);
-                
-                document.open();
-                document.write(htmlText);
-                document.close();
-            } catch (err) {
-                document.body.innerHTML = "<h1>Failed to decode BB91 page: <code>" + err + "</code></h1>";
+            if (!skip) {
+                try {
+                    const base91decoded = window.base91.decode(decodeURIComponent(encoded));
+                    const decompressed = decompress(base91decoded);
+                    const htmlText = new TextDecoder().decode(decompressed);
+                    
+                    document.open();
+                    document.write(htmlText);
+                    document.close();
+                } catch (err) {
+                    document.body.innerHTML = "<h1>Failed to decode BB91 page: <code>" + err + "</code></h1>";
+                }
             }
         </script>
     </body>
