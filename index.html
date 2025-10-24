@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Page Loader</title>
+        <script src=https://cdn.jsdelivr.net/npm/base91@0.0.5/lib/base91.min.js></script>
+    </head>
+    <body>
+        <script type="module">
+            import initBrotli, {compress, decompress} from "https://cdn.jsdelivr.net/npm/brotli-wasm/pkg.web/brotli_wasm.min.js";
+
+            await initBrotli();
+
+            const params = new URLSearchParams(location.search);
+            const encoded = params.get("data");
+
+            if (!encoded) {
+                location.replace("./create.html");
+            }
+
+            try {
+                const base91decoded = window.base91.decode(decodeURIComponent(encoded));
+                const decompressed = decompress(base91decoded);
+                const htmlText = new TextDecoder().decode(decompressed);
+                
+                document.open();
+                document.write(htmlText);
+                document.close();
+            } catch (err) {
+                document.body.innerHTML = "<h1>Failed to decode BB91 page: <code>" + err + "</code></h1>";
+            }
+        </script>
+    </body>
+</html>
